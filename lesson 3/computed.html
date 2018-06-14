@@ -1,0 +1,24 @@
+<html>
+  <head>
+    <script src="https://cdn.bootcss.com/vue/2.5.16/vue.js"></script>
+  </head>
+  <body>
+    <div id="demo">
+      {{ fullName }}
+    </div>
+  </body>
+  <script>
+    var app = new Vue({
+      el: '#demo',
+      data: {
+        firstName: 'Foo',
+        lastName: 'Bar',
+      },
+      computed: {
+        fullName() {
+          return this.firstName + '' +this.lastName
+        }
+      }
+    })
+  </script>
+</html>

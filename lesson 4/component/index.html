@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="https://cdn.bootcss.com/vue/2.5.16/vue.min.js"></script>
+  <link href="https://cdn.bootcss.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+  <div id="app" class="container">
+    <blog-post v-bind:likes="42"></blog-post>
+  </div>
+</body>
+</html>
+<script>
+  Vue.component('blog-post', {
+    props: {
+      title: String,
+      likes: Number,
+      isPublished: Boolean,
+      commentIds: Array,
+      author: Object
+    },
+    template: `
+      <h3>{{ likes }}</h3>
+    `
+  })
+
+  var app = new Vue({
+    el: '#app',
+    data: {
+      posts: [
+        {id: }
+      ]
+    }
+  })
+</script>

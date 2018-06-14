@@ -1,0 +1,32 @@
+<html>
+  <head>
+    <script src="https://cdn.bootcss.com/vue/2.5.16/vue.js"></script>
+  </head>
+  <body>
+    <div id="demo">
+      {{ nickName }}
+    </div>
+  </body>
+  <script>
+    //定义一个全局变量
+    var nick = 'Mr ';
+
+    var app = new Vue({
+      el: '#demo',
+      data: {
+        name: ''
+      },
+      computed: {
+        // 函数引用了外部的变量，这就不是一个纯函数了
+        nickName() {
+          return nick + this.name
+        }
+      }
+    })
+
+    // 不使用纯函数的话，有变量随时被改动的风险
+    setTimeout(function() {
+      nick = 'hahaha '
+    }, 5000);
+  </script>
+</html>

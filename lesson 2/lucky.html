@@ -1,0 +1,76 @@
+<html>
+  <head>
+    <link href="https://cdn.bootcss.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/vue/2.5.16/vue.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <div class="container">
+        <div class="jumbotron">
+          <h1 class="display-4">抽奖活动</h1>
+          <p class="lead">Vue.js</p>
+          <p class="lead">
+            <button class="btn btn-primary btn-lg" v-on:click="lucky">开始抽奖</button>
+            <button class="btn btn-primary btn-lg" v-on:click="stop">停止</button>
+          </p>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            幸运儿
+          </div>
+          <div class="card-body">
+            <ul>
+              <ol v-for="user in luckyUsers">{{ user.name }}</ol>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </body>
+  <script>
+    //创建100个虚拟人物
+    var users = function() {
+      let users = [];
+      for(let i = 0; i < 100; i++ ) {
+        users.push({id: i + 1, name: 'name ' + (i + 1)})
+      }
+      return users;
+    }();
+
+    var app = new Vue({
+      el: '#app',
+      data: {
+        users: users, //所有用户
+        luckyUsers: [],
+        isRunning: false,
+        luckyNumber: 1,
+      },
+      methods: {
+        lucky() {
+          console.log('开始抽奖');
+          this.isRunning = true;
+          this.run();
+        },
+        stop() {
+          console.log('停止抽奖');
+          console.log(this.luckyNumber);
+          this.luckyUsers.push(this.users[this.luckyNumber]);
+          this.isRunning = false;
+        },
+        run(){
+          if( !this.isRunning) {
+            return;
+          }
+            this.luckyNumber += 1;
+            if(this.luckyNumber >= this.users.length) {
+              this.luckyNumber = 1;
+            }
+            console.log('running...');
+            setTimeout(this.run,1);
+        }
+      }
+    })
+  </script>
+</html>

@@ -1,0 +1,26 @@
+<html>
+  <head>
+    <script src="https://cdn.bootcss.com/vue/2.5.16/vue.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <h1>{{ a }}</h1>
+      <h1>{{ b }}</h1>
+    </div>
+  </body>
+  <script>
+
+    var app = new Vue({
+      el: "#app",
+      data: {
+        a: 1,
+        b: ""
+      }
+    })
+
+    app.$watch('a', function (newValue, oldValue) {
+      console.log('新= ' + newValue + ',旧=' + oldValue);
+      alert('新= ' + newValue + ',旧=' + oldValue)
+    })
+  </script>
+</html>

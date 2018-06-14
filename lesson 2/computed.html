@@ -1,0 +1,24 @@
+<html>
+  <head>
+    <script src="https://cdn.bootcss.com/vue/2.5.16/vue.js"></script>
+  </head>
+  <body>
+    <div id="example">
+      <p>正常的信息：{{ message }}</p>
+      <p>逆转的信息：{{ reverseMessage }}</p>
+    </div>
+  </body>
+  <script>
+     var app = new Vue({
+       el: '#example',
+       data: {
+         message: 'hello world'
+       },
+       computed: {
+         reverseMessage() {
+           return this.message.split('').reverse().join('');
+         }
+       }
+     })
+  </script>
+</html>

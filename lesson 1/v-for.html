@@ -1,0 +1,26 @@
+<html>
+  <head>
+    <script src="https://cdn.bootcss.com/vue/2.5.16/vue.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <ol>
+        <li v-for="todo in todos">
+          {{ todo.lal }}
+        </li>
+      </ol>
+    </div>
+  </body>
+  <script>
+    var app = new Vue({
+      el: '#app',
+      data: {
+        todos: [
+            { lal: 'Hello Vue'},
+            { lal: 'Hello JS'},
+            { lal: 'Hell boy'}
+          ]
+      }
+    })
+  </script>
+</html>

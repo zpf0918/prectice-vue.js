@@ -1,0 +1,24 @@
+<html>
+  <head>
+    <script src="https://cdn.bootcss.com/vue/2.5.16/vue.js"></script>
+    <script src="./lib.js"></script>
+  </head>
+  <body>
+
+    <div id="app-6">
+      <component-1 a="hello,js"></component-1>
+      <component-1 a="hello,vue"></component-1>
+    </div>
+
+  </body>
+  <script>
+
+
+    var app6 = new Vue({
+      el: '#app-6',
+      data: {
+        message: 'Hello Vue!'
+      }
+    })
+  </script>
+</html>
