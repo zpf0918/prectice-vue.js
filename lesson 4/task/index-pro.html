@@ -8,19 +8,9 @@
 </head>
 <body>
   <div id="app" class="container">
-    <div class="row justify-content-md-center mt-5 mb-5">
-
+    <div class="row justify-content-md-center mt-5">
       <task-menu v-on:click-select="onSelected" v-bind:items="menus"></task-menu>
-
-      <div class="col-md-6"  v-if="currentMenuTag === true">
-        <task-item  v-bind:items="tasks" v-bind:tag="true"></task-item>
-      </div>
-
-      <div class="col-md-6"  v-else>
-        <task-item  v-bind:items="tasks" v-bind:tag="false"></task-item>
-      </div>
-
-
+      <task-list v-bind:tag="currentMenuTag" v-on:click-complete="onCompleted" v-bind:items="tasks"></task-list>
     </div>
   </div>
 </body>
@@ -28,58 +18,64 @@
 <script>
 
   Vue.component('task-menu', {
-    props: ['items'],
-    template: `
-      <div class="col-md-1">
-        <div class="btn-group-verify" role="group" v-for="item in items">
-          <button type="button" class="btn btn-secondary" v-on:click="onSelected(item.tag)">{{ item.text }}</button>
-        </div>
-      </div>
-    `,
-    methods: {
-      onSelected(tag) {
-        this.$emit('click-select', tag);
-      }
-    }
-  })
-
+   props: ['items'],
+   template: `
+     <div class="col-md-1">
+       <div class="btn-group-vertical" role="group" aria-label="Button group with nested dropdown">
+         <button type="button" class="btn btn-secondary" v-on:click="onSelected(item.tag)" v-for="item in items">{{ item.text}}</button>
+       </div>
+     </div>
+   `,
+   methods: {
+     onSelected(tag) {
+       this.$emit('click-select', tag);
+     }
+   }
+  });
   Vue.component('task-item', {
-    props: ['items', 'tag'],
-    template: `
-      <div class="list-group">
-        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start" v-for="item in items" v-if="item.completed === tag">
-          <div class="d-flex w-100 justify-content-between">
-            <h5 class="mb-1">{{ item.title }}</h5>
-            <small>{{ item.createAt }}</small>
-          </div>
-          <p class="mb-1">{{ item.content }}</p>
-          <small v-if="item.completed">已完成</small>
-          <div class="float-right" v-else>
-            <button class="btn btn-primary btn-ms" v-on:click="onCompleted">完成!</button>
-          </div>
-        </a>
-      </div>
-    `,
-    methods: {
-      onCompleted() {
-        console.log('')
-      }
-    }
-  })
-
+   props: ['item', 'tag'],
+   template: `
+     <a href="#" class="list-group-item list-group-item-action flex-column align-items-start" v-if="item.completed === tag">
+       <div class="d-flex w-100 justify-content-between">
+         <h5 class="mb-1">{{ item.title }}</h5>
+         <small>{{ item.createAt }}</small>
+       </div>
+       <p class="mb-1">{{ item.content }}</p>
+       <small v-if="item.completed">已完成</small>
+       <div class="float-right" v-else>
+         <button class="btn btn-primary btn-sm" v-on:click="onCompleted(item.id)">完成</button>
+       </div>
+     </a>
+   `,
+   methods: {
+     onCompleted(id) {
+       this.$emit('click-complete', id);
+       console.log('---')
+     }
+   }
+  });
   Vue.component('task-list', {
-    props: [],
-    template: `
-      <div class="col-md-6"  v-if="currentMenuTag === true">
-        <task-item  v-bind:items="tasks" v-bind:tag="true"></task-item>
-      </div>
-    `
-  })
+   props: ['items', 'tag'],
+   template: `
+     <div class="col-md-6">
+       <div class="list-group">
+         <task-item v-bind:item="item" v-on:click-complete="onCompleted" v-bind:tag="tag" v-for="item in items"></task-item>
+       </div>
+     </div>
+   `,
+   methods: {
+     onCompleted(id) {
+       this.$emit('click-complete', id);
+       console.log('hahah')
+     }
+   }
+  });
 
   const tasks = function() {
     let tasks = [];
     for(let i = 0; i < 10; i++){
       tasks.push({
+        id: i + 1,
         title: 'head' + (i + 1),
         content: 'content' + (i + 1),
         completed: false,
@@ -102,6 +98,9 @@
     methods: {
       onSelected(tag) {
         this.currentMenuTag = tag;
+      },
+      onCompleted(id) {
+        console.log(id);
       }
     }
   })
