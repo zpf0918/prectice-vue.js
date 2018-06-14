@@ -17,11 +17,11 @@
       </div>
 
       <div class="col-md-6"  v-if="currentMenuTag === true">
-        <task-item  v-bind:item="item" v-for="item in tasks"  v-if="item.completed === true"></task-item>
+        <task-item  v-bind:items="tasks" v-bind:tag="true"></task-item>
       </div>
 
       <div class="col-md-6"  v-else>
-        <task-item  v-bind:item="item" v-for="item in tasks" v-if="item.completed === false"></task-item>
+        <task-item  v-bind:items="tasks" v-bind:tag="false"></task-item>
       </div>
 
 
@@ -32,10 +32,10 @@
 <script>
 
   Vue.component('task-item', {
-    props: ['item'],
+    props: ['items', 'tag'],
     template: `
       <div class="list-group">
-        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start" v-for="item in items" v-if="item.completed === tag">
           <div class="d-flex w-100 justify-content-between">
             <h5 class="mb-1">{{ item.title }}</h5>
             <small>{{ item.createAt }}</small>
@@ -43,11 +43,16 @@
           <p class="mb-1">{{ item.content }}</p>
           <small v-if="item.completed">已完成</small>
           <div class="float-right" v-else>
-            <button class="btn btn-primary btn-ms">完成!</button>
+            <button class="btn btn-primary btn-ms" v-on:click="onCompleted">完成!</button>
           </div>
         </a>
       </div>
-    `
+    `,
+    methods: {
+      onCompleted() {
+        console.log('')
+      }
+    }
   })
 
   const tasks = function() {
