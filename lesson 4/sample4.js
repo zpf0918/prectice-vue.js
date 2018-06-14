@@ -1,11 +1,3 @@
-function f() {
-  let name = 'jonathan';
-  console.log(name);
+function highAndLow(numbers) {
+  numbers = numbers.split('').map(Number);
 }
-
-function k() {
-  console.log(name);
-}
-
-f();
-k();
