@@ -67,6 +67,15 @@
     }
   })
 
+  Vue.component('task-list', {
+    props: [],
+    template: `
+      <div class="col-md-6"  v-if="currentMenuTag === true">
+        <task-item  v-bind:items="tasks" v-bind:tag="true"></task-item>
+      </div>
+    `
+  })
+
   const tasks = function() {
     let tasks = [];
     for(let i = 0; i < 10; i++){
