@@ -12,8 +12,8 @@
 
 
       <div class="col-md-1">
-        <div class="btn-group-vertical" role="group" v-for="item in menus">
-          <button type="button" class="btn btn-secondary" v-on:click="onSelected(item.tag)">{{ item.text }}</button>
+        <div class="btn-group-vertical" role="group">
+          <button type="button" class="btn btn-secondary" v-on:click="onSelected(item.tag)" v-for="item in menus">{{ item.text }}</button>
         </div>
       </div>
 
@@ -22,8 +22,8 @@
         <div class="list-group" >
           <task-list
             v-for="task in tasks"
-            v-bind:task='tasks.task'
-            v-if="task.completed === true">
+            v-bind:task='task'
+            v-bind:tag="'completed'">
           </task-list>
         </div>
       </div>
@@ -32,8 +32,8 @@
         <div class="list-group" >
           <task-list
             v-for="task in tasks"
-            v-bind:task='tasks.task'
-            v-if="task.completed === false">
+            v-bind:task='task'
+            v-bind:tag="'working'">
           </task-list>
         </div>
       </div>
@@ -46,9 +46,9 @@
 <script>
 //构建组件
 Vue.component('task-list', {
-  props: ['task'],
+  props: ['task', 'tag'],
   template: `
-    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start" v-if="task.tag === tag">
       <div class="d-flex w-100 justify-content-between" >
         <h5 class="mb-1">{{ task.title }}</h5>
         <small>{{ task.createAt }}</small>
@@ -59,7 +59,12 @@ Vue.component('task-list', {
         <button class="btn btn-primary btn-ms" v-on:click="onCompleted">完成!</button>
       </div>
     </a>
-  `
+  `,
+  methods: {
+    onCompleted(completed) {
+      console.log('完成啦');
+    }
+  }
 })
 
 // 构建tasks 数据
@@ -70,6 +75,7 @@ Vue.component('task-list', {
        title: 'title' + (i + 1),
        content: 'content' + (i + 1),
        createAt: (new Date()).toString(),
+       tag: 'working',
        completed: false
      })
    }
