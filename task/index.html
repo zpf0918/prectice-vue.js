@@ -5,6 +5,9 @@
   <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://cdn.bootcss.com/vue/2.5.16/vue.min.js"></script>
   <script src="https://cdn.bootcss.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+  <script src="./public/task-menu.js"></script>
+  <script src="./public/task-item.js"></script>
+  <script src="./public/task-list.js"></script>
 </head>
 <body>
   <div id="app" class="container">
@@ -16,62 +19,6 @@
 </body>
 </html>
 <script>
-
-  Vue.component('task-menu', {
-    props: ['items'],
-    template: `
-      <div class="col-md-1 mt-5">
-        <div class="btn-group-vertical" role="group" v-for="item in items">
-          <button type="button" class="btn btn-secondary" v-on:click="onSelected(item.tag)">{{ item.text }}</button>
-        </div>
-      </div>
-    `,
-    methods: {
-      onSelected(tag) {
-        this.$emit('click-select', tag);
-      }
-    }
-  });
-
-
-  Vue.component('task-item', {
-    props: ['item', 'tag'],
-    template: `
-        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start" v-if="tag === item.completed">
-          <div class="d-flex w-100 justify-content-between">
-            <h5 class="mb-1">{{ item.title }}</h5>
-            <small>{{ item.createAt }}</small>
-          </div>
-          <p class="mb-1">{{ item.content }}</p>
-          <small v-if="item.completed">已完成</small>
-          <div class="float-right" v-else>
-            <button class="btn btn-primary btn-ms" v-on:click="onCompleted(item.id)">完成!</button>
-          </div>
-        </a>
-    `,
-    methods: {
-      onCompleted(id) {
-        this.$emit('click-complete', id);
-      }
-    }
-  });
-
-  Vue.component('task-list', {
-    props: ['items','tag'],
-    template: `
-      <div class="col-md-6 mt-5">
-        <div class="list-group">
-          <task-item v-bind:item="item" v-on:click-complete="onCompleted" v-bind:tag="tag" v-for="item in items"></task-item>
-        </div>
-      </div>
-    `,
-    methods: {
-      onCompleted(id) {
-        this.$emit('click-complete' ,id)
-      }
-    }
-  })
-
 
   var tasks = function() {
     let tasks = [];
