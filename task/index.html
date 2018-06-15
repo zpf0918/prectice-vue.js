@@ -5,6 +5,10 @@
   <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://cdn.bootcss.com/vue/2.5.16/vue.min.js"></script>
   <script src="https://cdn.bootcss.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+  <script src="https://cdn.bootcss.com/axios/0.17.1/axios.min.js"></script>
+
+  <script src="https://cdn.bootcss.com/node-uuid/1.4.8/uuid.min.js"></script>
+  <script src="https://cdn.bootcss.com/date-fns/2.0.0-alpha0/date_fns.min.js"></script>
   <script src="./public/task-menu.js"></script>
   <script src="./public/task-item.js"></script>
   <script src="./public/task-list.js"></script>
@@ -20,30 +24,21 @@
 </html>
 <script>
 
-  var tasks = function() {
-    let tasks = [];
-    for(let i = 0; i < 10; i++){
-      tasks.push({
-        id: i + 1,
-        title: 'task' + (i + 1),
-        content: 'content' + (i + 1),
-        completed: false,
-        createAt: (new Date()).toString()
-      })
-    }
-
-    return tasks;
-  }();
-
   var app = new Vue({
     el: '#app',
     data: {
-      tasks: tasks,
+      tasks: [],
       menus: [
         { tag: true,   text: '已完成'},
         { tag: false, text: '未完成'}
       ],
       currentMenuTag: false,
+    },
+    beforeCreate() {
+      axios.get('https://api.myjson.com/bins/khn66')
+      .then(response => response.data)
+      .then(data => (this.tasks = data))
+      .catch(console.log);
     },
     methods: {
       onSelected(tag) {
@@ -51,9 +46,18 @@
       },
       onCompleted(id) {
         this.tasks[id - 1].completed = true;
+        this.save();
+      },
+      save() {
+        axios.put('https://api.myjson.com/bins/khn66', this.tasks)
+        .then(response => response.data)
+        .then(data => alert('更新成功'))
+        .catch(console.log);
       }
     }
   })
+
+
 
   app.currentMenuTag = app.menus[1].tag
 </script>
